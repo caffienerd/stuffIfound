@@ -6,7 +6,7 @@
   <title>stuffIfound</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="../assets/icon.png" />
+  <link rel="icon" type="image/png" href="assets/icon.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -17,19 +17,35 @@
       <div class="header-right">
         <span id="tool-count" class="meta-count"></span>
         <button id="theme-toggle" class="btn-theme" title="toggle theme">◐</button>
-        <!-- Auth: shown when logged out -->
         <button id="login-btn" class="btn-login">sign in</button>
-        <!-- Auth: shown when logged in -->
         <div id="user-menu" class="user-menu" style="display:none">
           <img id="user-avatar" class="user-avatar" src="" alt="" />
           <span id="user-name" class="user-name"></span>
+          <a id="admin-link" href="admin/" class="btn-admin" style="display:none">admin</a>
           <button id="signout-btn" class="btn-signout">sign out</button>
         </div>
         <button id="add-btn" class="btn-add" style="display:none">+ add</button>
       </div>
     </div>
   </header>
-  <main>
+
+  <!-- Ban screen -->
+  <div id="ban-screen" class="ban-screen" style="display:none">
+    <div class="ban-box">
+      <div class="ban-icon">⊘</div>
+      <h2>you've been banned.</h2>
+      <p id="ban-reason" class="ban-reason"></p>
+      <div id="unban-section">
+        <p class="ban-hint">think this is a mistake? send an unban request.</p>
+        <textarea id="unban-message" placeholder="explain why you should be unbanned..." rows="3"></textarea>
+        <button id="unban-submit" class="btn-submit">send request →</button>
+        <div id="unban-success" class="submit-success" style="display:none">✓ request sent — hang tight.</div>
+        <div id="unban-error" class="form-error" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
     <div class="controls">
       <div class="search-wrap">
         <input type="text" id="search" placeholder="search..." autocomplete="off" spellcheck="false" />
@@ -37,22 +53,8 @@
       </div>
       <div class="tag-filters" id="tag-filters">
         <button class="tag-btn active" data-tag="ALL">all</button>
-        <button class="tag-btn" data-tag="AI">ai</button>
-        <button class="tag-btn" data-tag="TOOL">tool</button>
-        <button class="tag-btn" data-tag="COOL">cool</button>
-        <button class="tag-btn" data-tag="COLLECTION">collection</button>
-        <button class="tag-btn" data-tag="RESOURCE">resource</button>
-        <button class="tag-btn" data-tag="INSPIRATION">inspiration</button>
-        <button class="tag-btn" data-tag="VIBE-CODE">vibe-code</button>
-        <button class="tag-btn" data-tag="SECURITY">security</button>
-        <button class="tag-btn" data-tag="TUI">tui</button>
-        <button class="tag-btn" data-tag="FUN">fun</button>
-        <button class="tag-btn" data-tag="USELESS">useless</button>
-        <button class="tag-btn" data-tag="PRODUCTIVITY">productivity</button>
-        <button class="tag-btn" data-tag="WORKFLOW">workflow</button>
       </div>
     </div>
-
     <div id="tools-grid" class="tools-grid">
       <div class="loading">loading<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
     </div>
@@ -105,21 +107,7 @@
         </div>
         <div class="field">
           <label>tags <span class="req">*</span></label>
-          <div class="tag-select" id="tag-select">
-            <button class="tag-option" data-tag="AI">ai</button>
-            <button class="tag-option" data-tag="TOOL">tool</button>
-            <button class="tag-option" data-tag="COOL">cool</button>
-            <button class="tag-option" data-tag="COLLECTION">collection</button>
-            <button class="tag-option" data-tag="RESOURCE">resource</button>
-            <button class="tag-option" data-tag="INSPIRATION">inspiration</button>
-            <button class="tag-option" data-tag="VIBE-CODE">vibe-code</button>
-            <button class="tag-option" data-tag="SECURITY">security</button>
-            <button class="tag-option" data-tag="TUI">tui</button>
-            <button class="tag-option" data-tag="FUN">fun</button>
-            <button class="tag-option" data-tag="USELESS">useless</button>
-            <button class="tag-option" data-tag="PRODUCTIVITY">productivity</button>
-            <button class="tag-option" data-tag="WORKFLOW">workflow</button>
-          </div>
+          <div class="tag-select" id="tag-select"></div>
         </div>
         <div class="field">
           <label>platforms <span class="optional">(optional — skip for websites)</span></label>
@@ -160,6 +148,10 @@
     window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0dWFqeWhqaHZ4emZ6a2Vtdmt4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNzQwMDEsImV4cCI6MjA4ODY1MDAwMX0.UKPr-fYV262MgIxJuiR35uJQwhbqYlqmtvy7ois1IlY';
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="script.js"></script>
+  <script src="src/ui.js"></script>
+  <script src="src/tags.js"></script>
+  <script src="src/auth.js"></script>
+  <script src="src/submit.js"></script>
+  <script src="src/main.js"></script>
 </body>
 </html>

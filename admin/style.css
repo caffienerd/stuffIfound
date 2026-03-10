@@ -1,0 +1,375 @@
+/* stuffIfound — admin.css */
+
+.logo-back {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+.logo-back:hover { text-decoration: underline; }
+
+/* ── Tabs ──────────────────────────────────────────────────── */
+.admin-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  padding: 0 28px;
+}
+
+.admin-tab {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: -1px;
+}
+.admin-tab:hover { color: var(--text); }
+.admin-tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+/* ── Panel ─────────────────────────────────────────────────── */
+.admin-panel { padding: 0 28px 40px; }
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+.panel-header h2 {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.admin-search {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  outline: none;
+  width: 220px;
+  transition: border-color 0.15s;
+}
+.admin-search:focus { border-color: var(--border2); }
+
+/* ── Tags list ─────────────────────────────────────────────── */
+.tags-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.tag-preview {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  padding: 2px 8px;
+  border: 1px solid;
+  min-width: 100px;
+  text-align: center;
+}
+
+.tag-colors { display: flex; gap: 6px; align-items: center; margin-left: auto; }
+.color-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  cursor: help;
+}
+
+/* ── Add tag form ──────────────────────────────────────────── */
+.add-tag-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.tag-form-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tag-form-row input[type="text"] {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  outline: none;
+  flex: 1;
+  min-width: 160px;
+}
+.tag-form-row input[type="text"]:focus { border-color: var(--border2); }
+
+.color-pair {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.color-pair input[type="color"] {
+  width: 28px; height: 28px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px;
+  background: var(--bg);
+  cursor: pointer;
+}
+
+.btn-submit-sm {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--text);
+  color: var(--bg);
+  border: 1px solid var(--text);
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.btn-submit-sm:hover { opacity: 0.85; }
+
+.btn-cancel-sm {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-cancel-sm:hover { border-color: var(--border2); color: var(--text); }
+
+.btn-danger-sm {
+  font-family: var(--mono);
+  font-size: 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 3px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn-danger-sm:hover { border-color: #f87171; color: #f87171; }
+
+.btn-ok-sm {
+  font-family: var(--mono);
+  font-size: 10px;
+  background: transparent;
+  border: 1px solid #4ade80;
+  color: #4ade80;
+  padding: 3px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn-ok-sm:hover { background: #4ade80; color: #000; }
+
+/* ── Entries list ──────────────────────────────────────────── */
+.entries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.entry-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.entry-info { flex: 1; min-width: 0; }
+.entry-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.entry-meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted2);
+  margin-bottom: 2px;
+}
+.entry-tags { color: var(--muted); }
+.entry-link {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── User actions ──────────────────────────────────────────── */
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.role-select {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  outline: none;
+}
+.role-select:focus { border-color: var(--border2); }
+
+/* ── Role badges ───────────────────────────────────────────── */
+.role-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+.role-superadmin { background: #fbbf2422; color: #fbbf24; border: 1px solid #fbbf2466; }
+.role-admin      { background: #60a5fa22; color: #60a5fa; border: 1px solid #60a5fa66; }
+.role-user       { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+.role-banned     { background: #f8717122; color: #f87171; border: 1px solid #f8717166; }
+.role-pending    { background: #fb923c22; color: #fb923c; border: 1px solid #fb923c66; }
+
+.unban-request-text {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 4px;
+  padding: 6px 10px;
+  border-left: 2px solid #fb923c66;
+}
+
+.empty-msg {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted2);
+  padding: 20px 0;
+}
+
+/* ── Ban screen ────────────────────────────────────────────── */
+.ban-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 40px 20px;
+}
+.ban-box {
+  text-align: center;
+  max-width: 440px;
+}
+.ban-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+.ban-box h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+.ban-reason {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #f87171;
+  margin-bottom: 20px;
+}
+.ban-hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+#unban-message {
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px;
+  border-radius: var(--radius);
+  resize: vertical;
+  outline: none;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+#unban-message:focus { border-color: var(--border2); }
+
+/* ── btn-admin in header ───────────────────────────────────── */
+.btn-admin {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 4px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.btn-admin:hover { border-color: var(--border2); color: var(--text); }

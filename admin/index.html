@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stuffIfound — admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../assets/icon.png" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <a href="../" class="logo-back">← stuffIfound</a><span class="logo-dot"> / admin</span>
+      </div>
+      <div class="header-right">
+        <button id="theme-toggle" class="btn-theme" title="toggle theme">◐</button>
+        <div id="user-menu" class="user-menu" style="display:none">
+          <img id="user-avatar" class="user-avatar" src="" alt="" />
+          <span id="user-name" class="user-name"></span>
+          <span id="user-role-badge" class="role-badge"></span>
+          <button id="signout-btn" class="btn-signout">sign out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Access denied -->
+  <div id="access-denied" class="ban-screen" style="display:none">
+    <div class="ban-box">
+      <div class="ban-icon">⊘</div>
+      <h2>access denied.</h2>
+      <p class="ban-hint">you don't have permission to view this page.</p>
+      <a href="../" class="btn-submit" style="display:inline-block;text-decoration:none;margin-top:12px">← go back</a>
+    </div>
+  </div>
+
+  <main id="admin-main" style="display:none">
+
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="tags">tags</button>
+      <button class="admin-tab" data-tab="entries">entries</button>
+      <button class="admin-tab superadmin-only" data-tab="users" style="display:none">users</button>
+    </div>
+
+    <!-- Tags -->
+    <div id="tab-tags" class="admin-panel">
+      <div class="panel-header">
+        <h2>tags</h2>
+        <button id="add-tag-btn" class="btn-add">+ new tag</button>
+      </div>
+      <div id="add-tag-form" class="add-tag-form" style="display:none">
+        <div class="tag-form-row">
+          <input type="text" id="new-tag-name" placeholder="TAG NAME (uppercase)" spellcheck="false" />
+          <div class="color-pair">
+            <label>dark</label>
+            <input type="color" id="new-tag-dark"  value="#4ade80" />
+            <label>light</label>
+            <input type="color" id="new-tag-light" value="#16a34a" />
+          </div>
+          <button id="save-tag-btn"   class="btn-submit-sm">add →</button>
+          <button id="cancel-tag-btn" class="btn-cancel-sm">cancel</button>
+        </div>
+        <div id="tag-form-error" class="form-error" style="display:none"></div>
+      </div>
+      <div id="tags-list" class="tags-list"></div>
+    </div>
+
+    <!-- Entries -->
+    <div id="tab-entries" class="admin-panel" style="display:none">
+      <div class="panel-header">
+        <h2>all entries</h2>
+        <input type="text" id="entry-search" placeholder="search..." class="admin-search" />
+      </div>
+      <div id="entries-list" class="entries-list"></div>
+    </div>
+
+    <!-- Users (superadmin only) -->
+    <div id="tab-users" class="admin-panel" style="display:none">
+      <div class="panel-header"><h2>users</h2></div>
+      <div id="users-list" class="entries-list"></div>
+    </div>
+
+  </main>
+
+  <!-- Confirm modal -->
+  <div id="confirm-modal" class="modal-overlay" style="display:none">
+    <div class="modal modal--narrow">
+      <div class="modal-header">
+        <span id="confirm-title" class="modal-title">confirm</span>
+        <button id="confirm-close" class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-msg" class="auth-hint"></p>
+        <div class="delete-actions">
+          <button id="confirm-cancel" class="btn-cancel">cancel</button>
+          <button id="confirm-ok"     class="btn-delete">confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ban modal -->
+  <div id="ban-modal" class="modal-overlay" style="display:none">
+    <div class="modal modal--narrow">
+      <div class="modal-header">
+        <span class="modal-title">ban user</span>
+        <button id="ban-modal-close" class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p id="ban-modal-user" class="auth-hint"></p>
+        <div class="field">
+          <label>reason (optional)</label>
+          <input type="text" id="ban-reason-input" placeholder="reason for ban..." spellcheck="false" />
+        </div>
+        <div class="delete-actions">
+          <button id="ban-cancel"  class="btn-cancel">cancel</button>
+          <button id="ban-confirm" class="btn-delete">ban</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.SUPABASE_URL      = 'https://btuajyhjhvxzfzkemvkx.supabase.co';
+    window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0dWFqeWhqaHZ4emZ6a2Vtdmt4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNzQwMDEsImV4cCI6MjA4ODY1MDAwMX0.UKPr-fYV262MgIxJuiR35uJQwhbqYlqmtvy7ois1IlY';
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="src/main.js"></script>
+  <script src="src/tags.js"></script>
+  <script src="src/entries.js"></script>
+  <script src="src/users.js"></script>
+</body>
+</html>

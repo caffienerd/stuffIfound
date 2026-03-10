@@ -29,6 +29,8 @@ The goal is simple: build a constantly growing directory of things people discov
 * Supabase (database and authentication)
 
 ---
+## Rules
+
 
 ---
 
