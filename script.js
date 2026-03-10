@@ -17,7 +17,8 @@ let activeTag      = 'ALL';
 let searchQuery    = '';
 let selectedTags   = [];
 let currentUser    = null;
-let deleteTargetId = null;
+let deleteTargetId    = null;
+let selectedPlatforms = [];
 
 // ── DOM ────────────────────────────────────────────────────────
 const grid             = document.getElementById('tools-grid');
@@ -164,6 +165,10 @@ function card(t, i) {
     ? new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
     : '';
 
+  const platforms   = Array.isArray(t.platforms) ? t.platforms : [];
+  const platHTML    = platforms.map(p =>
+    `<span class="card-platform">${p}</span>`
+  ).join('');
   const isOwner    = currentUser && currentUser.id === t.user_id;
   const ownerBadge = isOwner ? `<span class="owner-badge">you</span>` : '';
   const actions    = isOwner ? `
@@ -177,6 +182,7 @@ function card(t, i) {
       <div class="card-top">
         <div class="card-tags">${tagsHTML}${ownerBadge}</div>
         <div class="card-name">${esc(t.name || '')}</div>
+        ${platHTML ? `<div class="card-platforms">${platHTML}</div>` : ''}
         <div class="card-desc">${esc(t.description || '')}</div>
       </div>
       <div class="card-footer">
@@ -249,6 +255,9 @@ function openEditModal(id) {
   selectedTags = Array.isArray(tool.tags) ? [...tool.tags] : [];
   document.querySelectorAll('.tag-option').forEach(o =>
     o.classList.toggle('selected', selectedTags.includes(o.dataset.tag)));
+  selectedPlatforms = Array.isArray(tool.platforms) ? [...tool.platforms] : [];
+  document.querySelectorAll('.platform-option').forEach(o =>
+    o.classList.toggle('selected', selectedPlatforms.includes(o.dataset.platform)));
   modalTitle.textContent      = 'edit entry';
   submitBtn.textContent       = 'save changes →';
   submitSuccess.style.display = 'none';
@@ -331,6 +340,17 @@ async function checkSafeBrowsing(url) {
   }
 }
 
+// ── Platform multi-select ──────────────────────────────────────
+document.getElementById('platform-select').addEventListener('click', e => {
+  const opt = e.target.closest('.platform-option');
+  if (!opt) return;
+  opt.classList.toggle('selected');
+  const p = opt.dataset.platform;
+  selectedPlatforms = opt.classList.contains('selected')
+    ? [...selectedPlatforms, p]
+    : selectedPlatforms.filter(x => x !== p);
+});
+
 // ── Validate ───────────────────────────────────────────────────
 function validate(name, link, desc) {
   if (!name || !link || !desc || selectedTags.length === 0)
@@ -384,6 +404,7 @@ submitBtn.addEventListener('click', async () => {
   if (editId) {
     ({ error } = await db.from('tools').update({
       name, link, description: desc, tags: selectedTags,
+      platforms: selectedPlatforms.length ? selectedPlatforms : null,
     }).eq('id', editId));
   } else {
     ({ error } = await db.from('tools').insert([{
@@ -392,7 +413,8 @@ submitBtn.addEventListener('click', async () => {
       added_by: currentUser?.user_metadata?.full_name
              || currentUser?.user_metadata?.user_name
              || null,
-      user_id:  currentUser?.id,
+      user_id:   currentUser?.id,
+      platforms: selectedPlatforms.length ? selectedPlatforms : null,
     }]));
     if (!error) incrementRateLimit();
   }
@@ -414,8 +436,10 @@ const isValidUrl = s   => { try { new URL(s); return true; } catch { return fals
 function resetForm() {
   ['f-name','f-link','f-desc'].forEach(id => document.getElementById(id).value = '');
   document.querySelectorAll('.tag-option').forEach(o => o.classList.remove('selected'));
+  document.querySelectorAll('.platform-option').forEach(o => o.classList.remove('selected'));
   if (descCount) descCount.textContent = `0 / ${MAX_DESC_LEN}`;
   selectedTags = [];
+  selectedPlatforms = [];
   hideError();
   submitSuccess.style.display = 'none';
   submitBtn.disabled    = false;
