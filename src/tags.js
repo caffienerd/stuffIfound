@@ -31,17 +31,6 @@ function renderTagSelect() {
     if (App.selectedTags.includes(tag.name)) btn.classList.add('selected');
     sel.appendChild(btn);
   });
-
-  // re-bind click
-  sel.addEventListener('click', e => {
-    const opt = e.target.closest('.tag-option');
-    if (!opt) return;
-    opt.classList.toggle('selected');
-    const tag = opt.dataset.tag;
-    App.selectedTags = opt.classList.contains('selected')
-      ? [...App.selectedTags, tag]
-      : App.selectedTags.filter(t => t !== tag);
-  });
 }
 
 function injectTagStyles() {
@@ -55,5 +44,17 @@ function injectTagStyles() {
   if (!el) { el = document.createElement('style'); el.id = 'dynamic-tag-styles'; document.head.appendChild(el); }
   el.textContent = css;
 }
+
+// ── Single delegated listener on the static modal body ─────────
+// This fires correctly no matter how many times renderTagSelect() rebuilds the buttons
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  const opt = e.target.closest('#tag-select .tag-option');
+  if (!opt) return;
+  opt.classList.toggle('selected');
+  const tag = opt.dataset.tag;
+  App.selectedTags = opt.classList.contains('selected')
+    ? [...App.selectedTags, tag]
+    : App.selectedTags.filter(t => t !== tag);
+});
 
 window.Tags = { fetchTags, renderTagSelect, injectTagStyles };

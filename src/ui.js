@@ -103,7 +103,14 @@ deleteModal.addEventListener('click', e => { if (e.target === deleteModal) delet
 
 document.addEventListener('keydown', e => {
   // Focus search on Ctrl+K or /
+  const anyModalOpen = () =>
+    document.getElementById('modal-overlay').style.display  !== 'none' ||
+    document.getElementById('login-modal').style.display    !== 'none' ||
+    document.getElementById('delete-modal').style.display   !== 'none' ||
+    document.getElementById('report-modal')?.style.display  !== 'none';
+
   if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && document.activeElement !== searchInput)) {
+    if (anyModalOpen()) return;
     e.preventDefault();
     searchInput.focus();
     searchInput.select();
