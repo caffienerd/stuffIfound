@@ -30,7 +30,7 @@
   --shadow:  rgba(0,0,0,0.08);
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; zoom: 1.25; }
 
 body {
   background: var(--bg);
@@ -276,6 +276,9 @@ main {
 [data-theme="light"] .tag-TUI        { color: #15803d; border-color: #15803d; }
 [data-theme="light"] .tag-FUN        { color: #c2410c; border-color: #c2410c; }
 [data-theme="light"] .tag-USELESS      { color: var(--muted); border-color: var(--muted); }
+.tag-PRODUCTIVITY { color: #38bdf8; border-color: #38bdf8; }
+.tag-WORKFLOW     { color: #a78bfa; border-color: #a78bfa; }
+
 .card-name {
   font-size: 14px;
   font-weight: 600;
@@ -886,21 +889,8 @@ main {
 .btn-report:hover { color: #f87171; border-color: #f8717144; opacity: 1; }
 
 /* ── Saved filter button ───────────────────────────────────── */
-/* .btn-saved has no extra styles — positioned inline after "all" by JS */
-
-/* ── btn-admin in header ───────────────────────────────────── */
-.btn-admin {
-  font-family: var(--mono);
-  font-size: 11px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 4px 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.15s;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
+.btn-saved {
+  margin-left: 8px;
+  border-left: 1px solid var(--border);
+  padding-left: 12px !important;
 }
-.btn-admin:hover { border-color: var(--border2); color: var(--text); }
