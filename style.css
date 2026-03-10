@@ -568,6 +568,23 @@ main {
 }
 .btn-signout:hover { border-color: var(--border2); color: var(--text); }
 
+a.btn-admin {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 4px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+a.btn-admin:hover { border-color: var(--border2); color: var(--text); }
+
 /* ── Auth modal ────────────────────────────────────────────── */
 .modal--narrow { max-width: 340px; }
 
