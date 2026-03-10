@@ -7,6 +7,7 @@ window.AdminTags = {
   async load() {
     const { data } = await Admin.db.from('tags').select('*').order('name');
     this.allTags = data || [];
+    setTabCount('tags', this.allTags.length);
     this.render();
     this.bindForm();
   },

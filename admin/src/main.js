@@ -99,6 +99,30 @@ document.getElementById('confirm-modal').addEventListener('click', e => {
 
 window.confirmAction = confirmAction;
 
+// ── Tab counts ─────────────────────────────────────────────────
+function setTabCount(tab, count) {
+  const btn = document.querySelector(`.admin-tab[data-tab="${tab}"]`);
+  if (!btn) return;
+  // strip any existing count badge first
+  btn.childNodes.forEach(n => { if (n.nodeType === 3) n.remove(); });
+  btn.querySelector('.tab-count')?.remove();
+  const base = {
+    tags:    'tags',
+    entries: 'entries',
+    reports: 'reports',
+    unban:   'unban requests',
+    users:   'users',
+  }[tab] || tab;
+  btn.textContent = base;
+  if (count > 0) {
+    const badge = document.createElement('span');
+    badge.className   = 'tab-count';
+    badge.textContent = count;
+    btn.appendChild(badge);
+  }
+}
+window.setTabCount = setTabCount;
+
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 window.escHtml = esc;
 

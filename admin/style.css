@@ -32,6 +32,22 @@
 .admin-tab:hover { color: var(--text); }
 .admin-tab.active { color: var(--text); border-bottom-color: var(--text); }
 
+.tab-count {
+  font-family: var(--mono);
+  font-size: 9px;
+  background: var(--border);
+  color: var(--muted);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+  font-weight: 500;
+}
+.admin-tab.active .tab-count {
+  background: var(--border2);
+  color: var(--text);
+}
+
 /* ── Panel ─────────────────────────────────────────────────── */
 .admin-panel { padding: 0 28px 40px; }
 

@@ -23,6 +23,7 @@ window.AdminUsers = {
     const bannedIds    = new Set((bansData || []).map(b => b.user_id));
     const unbanReqMap  = Object.fromEntries((bansData || []).filter(b => b.unban_request).map(b => [b.user_id, b]));
 
+    setTabCount('users', allUsers.length);
     this.render(allUsers, bannedIds, unbanReqMap);
   },
 

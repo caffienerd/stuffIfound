@@ -7,6 +7,7 @@ window.AdminEntries = {
   async load() {
     const { data } = await Admin.db.from('tools').select('*').order('created_at', { ascending: false });
     this.allEntries = data || [];
+    setTabCount('entries', this.allEntries.length);
     this.render(this.allEntries);
     this.bindSearch();
   },

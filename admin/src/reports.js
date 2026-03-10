@@ -11,6 +11,8 @@ window.AdminReports = {
       .select('*, tools(name, link)')
       .order('created_at', { ascending: false });
     this.allReports = data || [];
+    const openCount = this.allReports.filter(r => !r.resolved).length;
+    setTabCount('reports', openCount);
     this.render();
     this.bindToggle();
   },
@@ -93,6 +95,7 @@ window.AdminUnban = {
       .order('unban_requested_at', { ascending: false });
 
     const el = document.getElementById('unban-list');
+    setTabCount('unban', data?.length || 0);
     if (!data?.length) { el.innerHTML = '<p class="empty-msg">no pending unban requests.</p>'; return; }
 
     // also get names from roles table
