@@ -83,13 +83,7 @@ function showBanScreen(ban) {
 }
 
 // ── Init auth ──────────────────────────────────────────────────
-App.db.auth.getSession().then(({ data: { session } }) => {
-  updateAuthUI(session?.user ?? null);
-  if (window.location.hash.includes('access_token'))
-    history.replaceState(null, '', window.location.pathname);
-});
-
-App.db.auth.onAuthStateChange((_e, session) => {
+App.db.auth.onAuthStateChange((event, session) => {
   updateAuthUI(session?.user ?? null);
   if (window.location.hash.includes('access_token'))
     history.replaceState(null, '', window.location.pathname);
