@@ -1,7 +1,6 @@
 # stuffIfound
-
 <p align="center">
-  <img src="assets/logo.png" alt="stuffIfound logo" width="620">
+  <img src="assets/icon.png" alt="stuffIfound icon" width="210"> <img src="assets/logo.png" alt="stuffIfound logo" width="620">
 </p>
 
 stuffIfound is a public list of tools, websites, and interesting things people find on the internet.
