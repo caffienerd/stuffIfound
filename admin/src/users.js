@@ -5,23 +5,24 @@ window.AdminUsers = {
   banTargetId: null,
 
   async load() {
-    const [{ data: rolesData }, { data: bansData }, { data: toolsData }] = await Promise.all([
+    const [{ data: profilesData }, { data: rolesData }, { data: bansData }] = await Promise.all([
+      Admin.db.from('profiles').select('*'),
       Admin.db.from('roles').select('*'),
       Admin.db.from('banned_users').select('*'),
-      Admin.db.from('tools').select('user_id, added_by').not('user_id', 'is', null),
     ]);
 
-    // Build user map from roles + tools authors
-    const userMap = {};
-    (rolesData  || []).forEach(r => { userMap[r.user_id] = { user_id: r.user_id, role: r.role, name: '—' }; });
-    (toolsData  || []).forEach(t => {
-      if (!userMap[t.user_id]) userMap[t.user_id] = { user_id: t.user_id, role: 'user', name: t.added_by || '—' };
-      else userMap[t.user_id].name = t.added_by || userMap[t.user_id].name;
-    });
+    // profiles is the source of truth for all users
+    const roleMap = Object.fromEntries((rolesData || []).map(r => [r.user_id, r.role]));
 
-    const allUsers     = Object.values(userMap);
-    const bannedIds    = new Set((bansData || []).map(b => b.user_id));
-    const unbanReqMap  = Object.fromEntries((bansData || []).filter(b => b.unban_request).map(b => [b.user_id, b]));
+    const allUsers = (profilesData || []).map(p => ({
+      user_id: p.user_id,
+      name:    p.name || '—',
+      avatar:  p.avatar_url || null,
+      role:    roleMap[p.user_id] || 'user',
+    }));
+
+    const bannedIds   = new Set((bansData || []).map(b => b.user_id));
+    const unbanReqMap = Object.fromEntries((bansData || []).filter(b => b.unban_request).map(b => [b.user_id, b]));
 
     setTabCount('users', allUsers.length);
     this.render(allUsers, bannedIds, unbanReqMap);
@@ -40,10 +41,11 @@ window.AdminUsers = {
       <div class="entry-row">
         <div class="entry-info">
           <div class="entry-name">
+            ${u.avatar ? `<img src="${escHtml(u.avatar)}" class="user-avatar" style="width:18px;height:18px;border-radius:50%;vertical-align:middle;margin-right:4px;" />` : ''}
             ${escHtml(u.name)}
             <span class="role-badge role-${u.role}">${u.role}</span>
-            ${isBanned  ? '<span class="role-badge role-banned">banned</span>'          : ''}
-            ${unbanReq  ? '<span class="role-badge role-pending">unban request</span>'  : ''}
+            ${isBanned ? '<span class="role-badge role-banned">banned</span>'         : ''}
+            ${unbanReq ? '<span class="role-badge role-pending">unban request</span>' : ''}
           </div>
           <div class="entry-meta">${u.user_id}</div>
           ${unbanReq ? `<div class="unban-request-text">"${escHtml(unbanReq.unban_request)}"</div>` : ''}
@@ -51,8 +53,8 @@ window.AdminUsers = {
         ${!isSelf ? `
         <div class="user-actions">
           ${!isBanned
-            ? `<button class="btn-danger-sm btn-ban-user"   data-id="${u.user_id}" data-name="${escHtml(u.name)}">ban</button>`
-            : `<button class="btn-ok-sm    btn-unban-user"  data-id="${u.user_id}">unban</button>`
+            ? `<button class="btn-danger-sm btn-ban-user"  data-id="${u.user_id}" data-name="${escHtml(u.name)}">ban</button>`
+            : `<button class="btn-ok-sm    btn-unban-user" data-id="${u.user_id}">unban</button>`
           }
           <select class="role-select" data-id="${u.user_id}">
             <option value="user"       ${u.role==='user'       ?'selected':''}>user</option>
@@ -110,8 +112,8 @@ window.AdminUsers = {
       if (!AdminUsers.banTargetId) return;
       const reason = document.getElementById('ban-reason-input').value.trim();
       const { error } = await Admin.db.from('banned_users').upsert({
-        user_id: AdminUsers.banTargetId,
-        reason:  reason || null,
+        user_id:   AdminUsers.banTargetId,
+        reason:    reason || null,
         banned_at: new Date().toISOString(),
       }, { onConflict: 'user_id' });
       if (error) { alert(`failed: ${error.message}`); return; }
