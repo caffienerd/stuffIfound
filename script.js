@@ -7,6 +7,9 @@ const db = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 const MAX_NAME_LEN = 60;
 const MAX_DESC_LEN = 280;
 const EMOJI_RE     = /[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{FE00}-\u{FEFF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA9F}]/u;
+const RATE_LIMIT_KEY  = 'sif-submissions';
+const RATE_LIMIT_MAX  = 5;   // max submissions
+const RATE_LIMIT_WIN  = 60 * 60 * 1000; // per hour (ms)
 
 // ── State ──────────────────────────────────────────────────────
 let allTools       = [];
@@ -279,6 +282,55 @@ tagSelect.addEventListener('click', e => {
     : selectedTags.filter(t => t !== tag);
 });
 
+// ── Rate limiting ──────────────────────────────────────────────
+function getRateData() {
+  try {
+    const raw = localStorage.getItem(RATE_LIMIT_KEY);
+    return raw ? JSON.parse(raw) : { count: 0, windowStart: Date.now() };
+  } catch { return { count: 0, windowStart: Date.now() }; }
+}
+
+function checkRateLimit() {
+  const now  = Date.now();
+  let data   = getRateData();
+  // reset window if expired
+  if (now - data.windowStart > RATE_LIMIT_WIN) {
+    data = { count: 0, windowStart: now };
+  }
+  if (data.count >= RATE_LIMIT_MAX) {
+    const minsLeft = Math.ceil((RATE_LIMIT_WIN - (now - data.windowStart)) / 60000);
+    return `too many submissions — try again in ${minsLeft} min.`;
+  }
+  return null;
+}
+
+function incrementRateLimit() {
+  const now  = Date.now();
+  let data   = getRateData();
+  if (now - data.windowStart > RATE_LIMIT_WIN) data = { count: 0, windowStart: now };
+  data.count++;
+  localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data));
+}
+
+// ── URLhaus malware check (abuse.ch — free, no key needed) ────
+async function checkSafeBrowsing(url) {
+  try {
+    const res = await fetch('https://urlhaus-api.abuse.ch/v1/url/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `url=${encodeURIComponent(url)}`
+    });
+    const data = await res.json();
+    if (data.query_status === 'is_hosting_malware')
+      return 'this link is flagged as malware hosting — submission blocked.';
+    if (data.query_status === 'is_phishing')
+      return 'this link is flagged as phishing — submission blocked.';
+    return null;
+  } catch {
+    return null; // fail open — don't block if API unreachable
+  }
+}
+
 // ── Validate ───────────────────────────────────────────────────
 function validate(name, link, desc) {
   if (!name || !link || !desc || selectedTags.length === 0)
@@ -301,11 +353,31 @@ submitBtn.addEventListener('click', async () => {
   const link   = document.getElementById('f-link').value.trim();
   const desc   = document.getElementById('f-desc').value.trim();
 
+  // basic validation
   const err = validate(name, link, desc);
   if (err) { showError(err); return; }
 
+  // rate limit (new submissions only)
+  if (!editId) {
+    const rateErr = checkRateLimit();
+    if (rateErr) { showError(rateErr); return; }
+  }
+
   hideError();
   submitBtn.disabled    = true;
+  submitBtn.textContent = editId ? 'saving...' : 'checking link...';
+
+  // safe browsing check (new submissions only)
+  if (!editId) {
+    const safeErr = await checkSafeBrowsing(link);
+    if (safeErr) {
+      showError(safeErr);
+      submitBtn.disabled    = false;
+      submitBtn.textContent = 'submit →';
+      return;
+    }
+  }
+
   submitBtn.textContent = editId ? 'saving...' : 'submitting...';
 
   let error;
@@ -322,6 +394,7 @@ submitBtn.addEventListener('click', async () => {
              || null,
       user_id:  currentUser?.id,
     }]));
+    if (!error) incrementRateLimit();
   }
 
   submitBtn.disabled    = false;
