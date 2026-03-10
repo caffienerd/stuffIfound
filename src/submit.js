@@ -76,6 +76,10 @@ function resetForm() {
 
 // ── Open add modal ─────────────────────────────────────────────
 document.getElementById('add-btn').addEventListener('click', () => {
+  if (!App.currentUser) {
+    document.getElementById('login-modal').style.display = 'flex';
+    return;
+  }
   document.getElementById('f-edit-id').value = '';
   document.getElementById('modal-title').textContent = 'add something';
   document.getElementById('submit-btn').textContent  = 'submit →';

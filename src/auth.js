@@ -21,7 +21,6 @@ async function updateAuthUI(user) {
 
     document.getElementById('login-btn').style.display  = 'none';
     document.getElementById('user-menu').style.display  = 'flex';
-    document.getElementById('add-btn').style.display    = 'inline-flex';
 
     const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture;
     const name   = user.user_metadata?.full_name  || user.user_metadata?.user_name || user.email;
@@ -37,7 +36,6 @@ async function updateAuthUI(user) {
     App.currentRole = 'user';
     document.getElementById('login-btn').style.display  = 'inline-flex';
     document.getElementById('user-menu').style.display  = 'none';
-    document.getElementById('add-btn').style.display    = 'none';
     document.getElementById('admin-link').style.display = 'none';
   }
 

@@ -568,6 +568,7 @@ main {
 }
 .btn-signout:hover { border-color: var(--border2); color: var(--text); }
 
+/* ── btn-admin in header ─────────────────────────────────────── */
 a.btn-admin {
   font-family: var(--mono);
   font-size: 11px;
@@ -576,14 +577,31 @@ a.btn-admin {
   color: var(--muted);
   padding: 4px 10px;
   border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.15s;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   line-height: 1;
+  transition: all 0.15s;
 }
 a.btn-admin:hover { border-color: var(--border2); color: var(--text); }
+
+/* ── GitHub star button ─────────────────────────────────────── */
+a.btn-gh-star {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 4px 10px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1;
+  transition: all 0.15s;
+}
+a.btn-gh-star:hover { border-color: #fbbf24; color: #fbbf24; }
 
 /* ── Auth modal ────────────────────────────────────────────── */
 .modal--narrow { max-width: 340px; }
