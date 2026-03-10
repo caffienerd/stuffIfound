@@ -1,4 +1,4 @@
-# [stuffIfound](caffienerd.github.io/stuffIfound/)
+# [stuffIfound](https://stuffifound.pages.dev/)
 <p align="center">
   <img src="assets/icon.png" alt="stuffIfound icon" width="210"> <img src="assets/logo.png" alt="stuffIfound logo" width="620">
 </p>
