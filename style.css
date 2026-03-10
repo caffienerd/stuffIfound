@@ -683,3 +683,78 @@ main {
 
 [data-theme="light"] #delete-confirm-btn         { border-color: #dc2626; color: #dc2626; }
 [data-theme="light"] #delete-confirm-btn:hover   { background: #dc2626; color: #fff; }
+
+/* ── Admin bar ─────────────────────────────────────────────── */
+.admin-bar {
+  background: #2b1a00;
+  border-bottom: 1px solid #ffaa4444;
+  padding: 10px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #fdba74;
+  gap: 12px;
+}
+[data-theme="light"] .admin-bar {
+  background: #fdf3e8;
+  border-bottom-color: #fdba7488;
+  color: #905010;
+}
+
+.btn-admin-toggle {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: transparent;
+  border: 1px solid #fdba74;
+  color: #fdba74;
+  padding: 4px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.btn-admin-toggle:hover { background: #fdba74; color: #000; }
+
+/* ── Approve / reject buttons ──────────────────────────────── */
+.btn-approve {
+  font-family: var(--mono);
+  font-size: 10px;
+  background: transparent;
+  border: 1px solid #4ade80;
+  color: #4ade80;
+  padding: 3px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-approve:hover { background: #4ade80; color: #000; }
+
+.btn-reject {
+  font-family: var(--mono);
+  font-size: 10px;
+  background: transparent;
+  border: 1px solid #f87171;
+  color: #f87171;
+  padding: 3px 10px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-reject:hover { background: #f87171; color: #000; }
+
+[data-theme="light"] .btn-approve { border-color: #16a34a; color: #16a34a; }
+[data-theme="light"] .btn-approve:hover { background: #16a34a; color: #fff; }
+[data-theme="light"] .btn-reject  { border-color: #dc2626; color: #dc2626; }
+[data-theme="light"] .btn-reject:hover  { background: #dc2626; color: #fff; }
+
+/* ── Desc char counter ─────────────────────────────────────── */
+.desc-count {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted2);
+  text-align: right;
+  display: block;
+  margin-top: 4px;
+}

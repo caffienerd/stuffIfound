@@ -1,760 +1,353 @@
-/* ── Reset ─────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-/* ── Dark theme (default) ──────────────────────────────────── */
-:root {
-  --bg:      #0d0d0d;
-  --bg2:     #141414;
-  --border:  #282828;
-  --border2: #383838;
-  --text:    #e8e8e4;
-  --muted:   #666660;
-  --muted2:  #444440;
-  --tag-bg:  #1c1c1c;
-  --shadow:  rgba(0,0,0,0.5);
-  --mono:    'Geist Mono', monospace;
-  --sans:    'Instrument Sans', sans-serif;
-  --radius:  6px;
-}
-
-/* ── Light theme ───────────────────────────────────────────── */
-[data-theme="light"] {
-  --bg:      #fafaf9;
-  --bg2:     #ffffff;
-  --border:  #e8e8e5;
-  --border2: #d4d4cf;
-  --text:    #1a1a18;
-  --muted:   #999990;
-  --muted2:  #b8b8b0;
-  --tag-bg:  #f0f0ee;
-  --shadow:  rgba(0,0,0,0.08);
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 14px;
-  line-height: 1.6;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  transition: background 0.2s, color 0.2s;
-}
-
-/* ── Header ────────────────────────────────────────────────── */
-header {
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(12px);
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.header-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 28px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo {
-  font-family: var(--mono);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text);
-  letter-spacing: -0.3px;
-}
-.logo-dot { color: var(--muted2); }
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.meta-count {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.btn-theme {
-  font-size: 14px;
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 0.15s, color 0.15s;
-  line-height: 1;
-}
-.btn-theme:hover { border-color: var(--border2); color: var(--text); }
-
-.btn-add {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 500;
-  background: var(--text);
-  border: none;
-  color: var(--bg);
-  padding: 7px 14px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: opacity 0.15s;
-  letter-spacing: 0.2px;
-}
-.btn-add:hover { opacity: 0.75; }
-
-/* ── Main ──────────────────────────────────────────────────── */
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 48px 28px 100px;
-}
-
-.hero { margin-bottom: 40px; }
-
-.hero-sub {
-  font-size: 14px;
-  color: var(--muted);
-  font-family: var(--mono);
-  font-weight: 300;
-}
-
-/* ── Controls ──────────────────────────────────────────────── */
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 36px;
-}
-
-.search-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  max-width: 400px;
-}
-
-#search {
-  width: 100%;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: 13px;
-  padding: 9px 36px 9px 14px;
-  border-radius: var(--radius);
-  outline: none;
-  transition: border-color 0.15s, background 0.2s;
-}
-#search::placeholder { color: var(--muted2); }
-#search:focus { border-color: var(--border2); }
-
-.search-clear {
-  position: absolute;
-  right: 12px;
-  color: var(--muted2);
-  cursor: pointer;
-  font-size: 11px;
-  transition: color 0.12s;
-}
-.search-clear:hover { color: var(--text); }
-
-.tag-filters { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.tag-btn {
-  font-family: var(--mono);
-  font-size: 11px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 4px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.12s;
-}
-.tag-btn:hover { border-color: var(--border2); color: var(--text); }
-.tag-btn.active {
-  background: var(--text);
-  border-color: var(--text);
-  color: var(--bg);
-}
-
-/* ── Grid ──────────────────────────────────────────────────── */
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 12px;
-}
-
-/* ── Card ──────────────────────────────────────────────────── */
-.tool-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: border-color 0.15s, box-shadow 0.15s, background 0.2s;
-  animation: fadeUp 0.2s ease both;
-}
-.tool-card--link {
-  cursor: pointer;
-}
-.tool-card--link:hover {
-  border-color: var(--border2);
-  box-shadow: 0 2px 16px var(--shadow);
-}
-.tool-card--link:hover .card-name {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.card-top {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.card-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-
-.card-tag {
-  font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.6px;
-  padding: 2px 7px;
-  border-radius: 0;
-  background: transparent;
-  border: 1px solid;
-  text-transform: uppercase;
-}
-
-/* Tag colors — vibrant border + matching text, no fill */
-.tag-AI         { color: #4ade80; border-color: #4ade80; }
-.tag-TOOL       { color: #60a5fa; border-color: #60a5fa; }
-.tag-COOL       { color: #fbbf24; border-color: #fbbf24; }
-.tag-COLLECTION { color: #c084fc; border-color: #c084fc; }
-.tag-RESOURCE   { color: #fb923c; border-color: #fb923c; }
-.tag-INSPIRATION{ color: #f472b6; border-color: #f472b6; }
-.tag-VIBE-CODE  { color: #34d399; border-color: #34d399; }
-.tag-SECURITY   { color: #f87171; border-color: #f87171; }
-.tag-TUI        { color: #86efac; border-color: #86efac; }
-.tag-FUN        { color: #fdba74; border-color: #fdba74; }
-.tag-USELESS    { color: var(--muted); border-color: var(--muted); }
-
-/* Light mode — slightly deeper tones for contrast */
-[data-theme="light"] .tag-AI         { color: #16a34a; border-color: #16a34a; }
-[data-theme="light"] .tag-TOOL       { color: #2563eb; border-color: #2563eb; }
-[data-theme="light"] .tag-COOL       { color: #d97706; border-color: #d97706; }
-[data-theme="light"] .tag-COLLECTION { color: #7c3aed; border-color: #7c3aed; }
-[data-theme="light"] .tag-RESOURCE   { color: #ea580c; border-color: #ea580c; }
-[data-theme="light"] .tag-INSPIRATION{ color: #db2777; border-color: #db2777; }
-[data-theme="light"] .tag-VIBE-CODE  { color: #0d9488; border-color: #0d9488; }
-[data-theme="light"] .tag-SECURITY   { color: #dc2626; border-color: #dc2626; }
-[data-theme="light"] .tag-TUI        { color: #15803d; border-color: #15803d; }
-[data-theme="light"] .tag-FUN        { color: #c2410c; border-color: #c2410c; }
-[data-theme="light"] .tag-USELESS    { color: var(--muted); border-color: var(--muted); }
-
-.card-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.3;
-}
-
-.card-desc {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.55;
-  flex: 1;
-}
-
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
-  gap: 8px;
-}
-.card-by {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted2);
-}
-.card-date {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted2);
-  flex-shrink: 0;
-}
-
-/* ── Loading ───────────────────────────────────────────────── */
-.loading {
-  grid-column: 1 / -1;
-  padding: 80px 0;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dots span { animation: dotPulse 1.2s infinite; display: inline-block; }
-.dots span:nth-child(2) { animation-delay: 0.2s; }
-.dots span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes dotPulse {
-  0%, 80%, 100% { opacity: 0.2; }
-  40%           { opacity: 1; }
-}
-
-.no-results {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted2);
-  padding: 80px 0;
-  text-align: center;
-}
-
-/* ── Modal ─────────────────────────────────────────────────── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(6px);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.modal {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  width: 100%;
-  max-width: 480px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 8px 48px var(--shadow);
-  animation: modalIn 0.18s ease;
-}
-
-@keyframes modalIn {
-  from { opacity: 0; transform: translateY(10px) scale(0.99); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.modal-title {
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--muted2);
-  font-size: 14px;
-  cursor: pointer;
-  padding: 4px;
-  transition: color 0.12s;
-}
-.modal-close:hover { color: var(--text); }
-
-.modal-body {
-  padding: 20px 24px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.field { display: flex; flex-direction: column; gap: 6px; }
-
-.field label {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.req      { color: var(--muted2); }
-.optional { color: var(--muted2); font-size: 10px; }
-
-.field input,
-.field textarea {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: 13px;
-  padding: 9px 12px;
-  border-radius: var(--radius);
-  outline: none;
-  transition: border-color 0.15s, background 0.2s;
-  resize: none;
-}
-.field input::placeholder,
-.field textarea::placeholder { color: var(--muted2); }
-.field input:focus,
-.field textarea:focus { border-color: var(--border2); }
-
-.tag-select { display: flex; flex-wrap: wrap; gap: 6px; }
-
-.tag-option {
-  font-family: var(--mono);
-  font-size: 11px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 4px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.12s;
-}
-.tag-option:hover { border-color: var(--border2); color: var(--text); }
-.tag-option.selected {
-  background: var(--text);
-  border-color: var(--text);
-  color: var(--bg);
-}
-
-.form-error {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: #f87171;
-  padding: 8px 12px;
-  border-radius: var(--radius);
-  background: #2b0d0d;
-  border: 1px solid #3d1515;
-}
-[data-theme="light"] .form-error {
-  color: #c0392b;
-  background: #fdf0ef;
-  border-color: #f5c6c2;
-}
-
-.btn-submit {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-weight: 500;
-  background: var(--text);
-  border: none;
-  color: var(--bg);
-  padding: 11px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  width: 100%;
-  transition: opacity 0.15s;
-}
-.btn-submit:hover    { opacity: 0.75; }
-.btn-submit:disabled { opacity: 0.3; cursor: not-allowed; }
-
-.submit-success {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: #4ade80;
-  text-align: center;
-}
-[data-theme="light"] .submit-success { color: #2d7a4f; }
-
-/* ── Scrollbar ─────────────────────────────────────────────── */
-::-webkit-scrollbar       { width: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
-
-/* ── Responsive ────────────────────────────────────────────── */
-@media (max-width: 600px) {
-  .header-inner { padding: 0 18px; }
-  main { padding: 32px 18px 80px; }
-  .search-wrap { max-width: 100%; }
-}
-
-/* ── Footer subtitle ───────────────────────────────────────── */
-.footer-sub {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 300;
-  color: var(--muted2);
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
-}
-
-/* ── Auth header ───────────────────────────────────────────── */
-.btn-login {
-  font-family: var(--mono);
-  font-size: 11px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 6px 12px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.btn-login:hover { border-color: var(--border2); color: var(--text); }
-
-.user-menu {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.user-avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid var(--border);
-}
-
-.user-name {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  max-width: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.btn-signout {
-  font-family: var(--mono);
-  font-size: 10px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 4px 8px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.btn-signout:hover { border-color: var(--border2); color: var(--text); }
-
-/* ── Auth modal ────────────────────────────────────────────── */
-.modal--narrow { max-width: 340px; }
-
-.auth-hint {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 16px;
-  line-height: 1.6;
-}
-
-.btn-oauth {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-family: var(--mono);
-  font-size: 12px;
-  padding: 11px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  border: 1px solid var(--border);
-  transition: all 0.15s;
-  margin-bottom: 8px;
-}
-
-.btn-oauth--gh {
-  background: var(--bg);
-  color: var(--text);
-}
-.btn-oauth--gh:hover { border-color: var(--border2); background: var(--bg3, var(--bg2)); }
-
-.btn-oauth--google {
-  background: var(--bg);
-  color: var(--text);
-}
-.btn-oauth--google:hover { border-color: var(--border2); background: var(--bg3, var(--bg2)); }
-
-/* ── Owner badge ───────────────────────────────────────────── */
-.owner-badge {
-  font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  padding: 2px 7px;
-  border-radius: 0;
-  border: 1px solid var(--muted2);
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-/* ── Card actions (edit / remove) ──────────────────────────── */
-.card-actions {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border);
-}
-
-.btn-edit, .btn-delete {
-  font-family: var(--mono);
-  font-size: 10px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 3px 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.12s;
-}
-.btn-edit:hover   { border-color: var(--border2); color: var(--text); }
-.btn-delete:hover { border-color: #f87171; color: #f87171; }
-
-[data-theme="light"] .btn-delete:hover { border-color: #dc2626; color: #dc2626; }
-
-/* ── Delete confirm modal ──────────────────────────────────── */
-.delete-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.btn-cancel {
-  flex: 1;
-  font-family: var(--mono);
-  font-size: 12px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.btn-cancel:hover { border-color: var(--border2); color: var(--text); }
-
-.btn-delete-confirm, .btn-delete {
-  font-family: var(--mono);
-}
-
-
-
-#delete-confirm-btn {
-  flex: 1;
-  font-family: var(--mono);
-  font-size: 12px;
-  background: transparent;
-  border: 1px solid #f87171;
-  color: #f87171;
-  padding: 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-#delete-confirm-btn:hover { background: #f87171; color: #000; }
-
-[data-theme="light"] #delete-confirm-btn         { border-color: #dc2626; color: #dc2626; }
-[data-theme="light"] #delete-confirm-btn:hover   { background: #dc2626; color: #fff; }
-
-/* ── Admin bar ─────────────────────────────────────────────── */
-.admin-bar {
-  background: #2b1a00;
-  border-bottom: 1px solid #ffaa4444;
-  padding: 10px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: #fdba74;
-  gap: 12px;
-}
-[data-theme="light"] .admin-bar {
-  background: #fdf3e8;
-  border-bottom-color: #fdba7488;
-  color: #905010;
-}
-
-.btn-admin-toggle {
-  font-family: var(--mono);
-  font-size: 11px;
-  background: transparent;
-  border: 1px solid #fdba74;
-  color: #fdba74;
-  padding: 4px 12px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
-.btn-admin-toggle:hover { background: #fdba74; color: #000; }
-
-/* ── Approve / reject buttons ──────────────────────────────── */
-.btn-approve {
-  font-family: var(--mono);
-  font-size: 10px;
-  background: transparent;
-  border: 1px solid #4ade80;
-  color: #4ade80;
-  padding: 3px 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.12s;
-}
-.btn-approve:hover { background: #4ade80; color: #000; }
-
-.btn-reject {
-  font-family: var(--mono);
-  font-size: 10px;
-  background: transparent;
-  border: 1px solid #f87171;
-  color: #f87171;
-  padding: 3px 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.12s;
-}
-.btn-reject:hover { background: #f87171; color: #000; }
-
-[data-theme="light"] .btn-approve { border-color: #16a34a; color: #16a34a; }
-[data-theme="light"] .btn-approve:hover { background: #16a34a; color: #fff; }
-[data-theme="light"] .btn-reject  { border-color: #dc2626; color: #dc2626; }
-[data-theme="light"] .btn-reject:hover  { background: #dc2626; color: #fff; }
-
-/* ── Desc char counter ─────────────────────────────────────── */
-.desc-count {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted2);
-  text-align: right;
-  display: block;
-  margin-top: 4px;
-}
+/* stuffIfound — script.js */
+
+const { createClient } = supabase;
+const db = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
+// ── Config ─────────────────────────────────────────────────────
+const MAX_NAME_LEN = 60;
+const MAX_DESC_LEN = 280;
+const EMOJI_RE     = /[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{FE00}-\u{FEFF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA9F}]/u;
+
+// ── State ──────────────────────────────────────────────────────
+let allTools       = [];
+let activeTag      = 'ALL';
+let searchQuery    = '';
+let selectedTags   = [];
+let currentUser    = null;
+let deleteTargetId = null;
+
+// ── DOM ────────────────────────────────────────────────────────
+const grid             = document.getElementById('tools-grid');
+const noResults        = document.getElementById('no-results');
+const toolCount        = document.getElementById('tool-count');
+const searchInput      = document.getElementById('search');
+const searchClear      = document.getElementById('search-clear');
+const tagFilters       = document.getElementById('tag-filters');
+const addBtn           = document.getElementById('add-btn');
+const modalOverlay     = document.getElementById('modal-overlay');
+const modalClose       = document.getElementById('modal-close');
+const modalTitle       = document.getElementById('modal-title');
+const tagSelect        = document.getElementById('tag-select');
+const submitBtn        = document.getElementById('submit-btn');
+const formError        = document.getElementById('form-error');
+const submitSuccess    = document.getElementById('submit-success');
+const loginBtn         = document.getElementById('login-btn');
+const loginModal       = document.getElementById('login-modal');
+const loginModalClose  = document.getElementById('login-modal-close');
+const userMenu         = document.getElementById('user-menu');
+const userAvatar       = document.getElementById('user-avatar');
+const userName         = document.getElementById('user-name');
+const signoutBtn       = document.getElementById('signout-btn');
+const ghLoginBtn       = document.getElementById('gh-login-btn');
+const googleLoginBtn   = document.getElementById('google-login-btn');
+const deleteModal      = document.getElementById('delete-modal');
+const deleteCancel     = document.getElementById('delete-cancel');
+const deleteCancelBtn  = document.getElementById('delete-cancel-btn');
+const deleteConfirmBtn = document.getElementById('delete-confirm-btn');
+const themeToggle      = document.getElementById('theme-toggle');
+const descCount        = document.getElementById('desc-count');
+
+// ── Theme ──────────────────────────────────────────────────────
+const savedTheme = localStorage.getItem('sif-theme') || 'dark';
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    themeToggle.textContent = '○';
+    themeToggle.title = 'switch to dark';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    themeToggle.textContent = '◐';
+    themeToggle.title = 'switch to light';
+  }
+  localStorage.setItem('sif-theme', theme);
+}
+themeToggle.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  applyTheme(cur === 'light' ? 'dark' : 'light');
+});
+applyTheme(savedTheme);
+
+// ── Auth UI ────────────────────────────────────────────────────
+function updateAuthUI(user) {
+  currentUser = user;
+  if (user) {
+    loginBtn.style.display  = 'none';
+    userMenu.style.display  = 'flex';
+    addBtn.style.display    = 'inline-flex';
+    const avatar = user.user_metadata?.avatar_url || user.user_metadata?.picture;
+    const name   = user.user_metadata?.full_name || user.user_metadata?.user_name || user.email;
+    userAvatar.src           = avatar || '';
+    userAvatar.style.display = avatar ? 'block' : 'none';
+    userName.textContent     = name;
+  } else {
+    loginBtn.style.display  = 'inline-flex';
+    userMenu.style.display  = 'none';
+    addBtn.style.display    = 'none';
+  }
+  renderTools();
+}
+
+db.auth.getSession().then(({ data: { session } }) => {
+  updateAuthUI(session?.user ?? null);
+  if (window.location.hash.includes('access_token'))
+    history.replaceState(null, '', window.location.pathname);
+});
+db.auth.onAuthStateChange((_e, session) => {
+  updateAuthUI(session?.user ?? null);
+  if (window.location.hash.includes('access_token'))
+    history.replaceState(null, '', window.location.pathname);
+});
+
+// ── OAuth ──────────────────────────────────────────────────────
+ghLoginBtn.addEventListener('click', () =>
+  db.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: window.location.origin + window.location.pathname } }));
+googleLoginBtn.addEventListener('click', () =>
+  db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin + window.location.pathname } }));
+signoutBtn.addEventListener('click', async () => await db.auth.signOut());
+
+loginBtn.addEventListener('click',       () => { loginModal.style.display = 'flex'; });
+loginModalClose.addEventListener('click',() => { loginModal.style.display = 'none'; });
+loginModal.addEventListener('click', e  => { if (e.target === loginModal) loginModal.style.display = 'none'; });
+
+// ── Fetch ──────────────────────────────────────────────────────
+async function fetchTools() {
+  const { data, error } = await db
+    .from('tools')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) { grid.innerHTML = `<div class="no-results">error: ${error.message}</div>`; return; }
+  allTools = data || [];
+  toolCount.textContent = `${allTools.length} things`;
+  renderTools();
+}
+
+// ── Filter ─────────────────────────────────────────────────────
+function getFiltered() {
+  return allTools.filter(t => {
+    const tagMatch    = activeTag === 'ALL' || (Array.isArray(t.tags) && t.tags.includes(activeTag));
+    const q           = searchQuery.toLowerCase();
+    const searchMatch = !q || t.name?.toLowerCase().includes(q) || t.description?.toLowerCase().includes(q);
+    return tagMatch && searchMatch;
+  });
+}
+
+// ── Render ─────────────────────────────────────────────────────
+function renderTools() {
+  const filtered = getFiltered();
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  grid.innerHTML = filtered.map((t, i) => card(t, i)).join('');
+
+  grid.querySelectorAll('.btn-edit').forEach(btn =>
+    btn.addEventListener('click', e => { e.stopPropagation(); openEditModal(btn.dataset.id); }));
+  grid.querySelectorAll('.btn-delete').forEach(btn =>
+    btn.addEventListener('click', e => { e.stopPropagation(); openDeleteModal(btn.dataset.id); }));
+  grid.querySelectorAll('.tool-card[data-href]').forEach(c =>
+    c.addEventListener('click', () => { if (c.dataset.href) window.open(c.dataset.href, '_blank', 'noopener noreferrer'); }));
+}
+
+function card(t, i) {
+  const tags     = Array.isArray(t.tags) ? t.tags : [];
+  const tagsHTML = tags.map(tag =>
+    `<span class="card-tag tag-${tag.replace(/\s+/g,'-')}">${tag.toUpperCase()}</span>`
+  ).join('');
+
+  const date = t.created_at
+    ? new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    : '';
+
+  const isOwner    = currentUser && currentUser.id === t.user_id;
+  const ownerBadge = isOwner ? `<span class="owner-badge">you</span>` : '';
+  const actions    = isOwner ? `
+    <div class="card-actions">
+      <button class="btn-edit"   data-id="${t.id}">edit</button>
+      <button class="btn-delete" data-id="${t.id}">remove</button>
+    </div>` : '';
+
+  return `
+    <div class="tool-card${t.link ? ' tool-card--link' : ''}" data-href="${esc(t.link || '')}" style="animation-delay:${Math.min(i*25,300)}ms">
+      <div class="card-top">
+        <div class="card-tags">${tagsHTML}${ownerBadge}</div>
+        <div class="card-name">${esc(t.name || '')}</div>
+        <div class="card-desc">${esc(t.description || '')}</div>
+      </div>
+      <div class="card-footer">
+        <span class="card-by">${t.added_by ? esc(t.added_by) : ''}</span>
+        <span class="card-date">${date}</span>
+      </div>
+      ${actions}
+    </div>`;
+}
+
+const esc = s => String(s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+// ── Tag filter ─────────────────────────────────────────────────
+tagFilters.addEventListener('click', e => {
+  const btn = e.target.closest('.tag-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeTag = btn.dataset.tag;
+  renderTools();
+});
+
+// ── Search ─────────────────────────────────────────────────────
+searchInput.addEventListener('input', () => {
+  searchQuery = searchInput.value.trim();
+  searchClear.style.display = searchQuery ? 'inline' : 'none';
+  renderTools();
+});
+searchClear.addEventListener('click', () => {
+  searchInput.value = ''; searchQuery = '';
+  searchClear.style.display = 'none';
+  searchInput.focus(); renderTools();
+});
+
+// ── Desc char counter ──────────────────────────────────────────
+document.getElementById('f-desc').addEventListener('input', function() {
+  const len = this.value.length;
+  if (descCount) {
+    descCount.textContent = `${len} / ${MAX_DESC_LEN}`;
+    descCount.style.color = len > MAX_DESC_LEN * 0.9 ? '#f87171' : '';
+  }
+});
+
+// ── Add modal ──────────────────────────────────────────────────
+addBtn.addEventListener('click', () => {
+  document.getElementById('f-edit-id').value = '';
+  modalTitle.textContent = 'add something';
+  submitBtn.textContent  = 'submit →';
+  resetForm();
+  modalOverlay.style.display = 'flex';
+  document.getElementById('f-name').focus();
+});
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); loginModal.style.display = 'none'; deleteModal.style.display = 'none'; }
+});
+function closeModal() { modalOverlay.style.display = 'none'; resetForm(); }
+
+// ── Edit modal ─────────────────────────────────────────────────
+function openEditModal(id) {
+  const tool = allTools.find(t => t.id === id);
+  if (!tool) return;
+  document.getElementById('f-edit-id').value = id;
+  document.getElementById('f-name').value    = tool.name;
+  document.getElementById('f-link').value    = tool.link;
+  document.getElementById('f-desc').value    = tool.description;
+  selectedTags = Array.isArray(tool.tags) ? [...tool.tags] : [];
+  document.querySelectorAll('.tag-option').forEach(o =>
+    o.classList.toggle('selected', selectedTags.includes(o.dataset.tag)));
+  modalTitle.textContent      = 'edit entry';
+  submitBtn.textContent       = 'save changes →';
+  submitSuccess.style.display = 'none';
+  hideError();
+  modalOverlay.style.display  = 'flex';
+}
+
+// ── Delete modal ───────────────────────────────────────────────
+function openDeleteModal(id) { deleteTargetId = id; deleteModal.style.display = 'flex'; }
+deleteCancel.addEventListener('click',    () => { deleteModal.style.display = 'none'; });
+deleteCancelBtn.addEventListener('click', () => { deleteModal.style.display = 'none'; });
+deleteModal.addEventListener('click', e  => { if (e.target === deleteModal) deleteModal.style.display = 'none'; });
+
+deleteConfirmBtn.addEventListener('click', async () => {
+  if (!deleteTargetId) return;
+  const { error } = await db.from('tools').delete().eq('id', deleteTargetId);
+  if (error) { alert(`failed: ${error.message}`); return; }
+  deleteModal.style.display = 'none';
+  deleteTargetId = null;
+  await fetchTools();
+});
+
+// ── Tag multi-select ───────────────────────────────────────────
+tagSelect.addEventListener('click', e => {
+  const opt = e.target.closest('.tag-option');
+  if (!opt) return;
+  opt.classList.toggle('selected');
+  const tag = opt.dataset.tag;
+  selectedTags = opt.classList.contains('selected')
+    ? [...selectedTags, tag]
+    : selectedTags.filter(t => t !== tag);
+});
+
+// ── Validate ───────────────────────────────────────────────────
+function validate(name, link, desc) {
+  if (!name || !link || !desc || selectedTags.length === 0)
+    return 'fill in all required fields and pick at least one tag.';
+  if (name.length > MAX_NAME_LEN)
+    return `name too long — max ${MAX_NAME_LEN} chars.`;
+  if (desc.length > MAX_DESC_LEN)
+    return `description too long — max ${MAX_DESC_LEN} chars.`;
+  if (EMOJI_RE.test(name) || EMOJI_RE.test(desc))
+    return 'no emojis in name or description.';
+  if (!isValidUrl(link))
+    return 'enter a valid url (e.g. https://example.com)';
+  return null;
+}
+
+// ── Submit ─────────────────────────────────────────────────────
+submitBtn.addEventListener('click', async () => {
+  const editId = document.getElementById('f-edit-id').value;
+  const name   = document.getElementById('f-name').value.trim();
+  const link   = document.getElementById('f-link').value.trim();
+  const desc   = document.getElementById('f-desc').value.trim();
+
+  const err = validate(name, link, desc);
+  if (err) { showError(err); return; }
+
+  hideError();
+  submitBtn.disabled    = true;
+  submitBtn.textContent = editId ? 'saving...' : 'submitting...';
+
+  let error;
+  if (editId) {
+    ({ error } = await db.from('tools').update({
+      name, link, description: desc, tags: selectedTags,
+    }).eq('id', editId));
+  } else {
+    ({ error } = await db.from('tools').insert([{
+      name, link, description: desc,
+      tags:     selectedTags,
+      added_by: currentUser?.user_metadata?.full_name
+             || currentUser?.user_metadata?.user_name
+             || null,
+      user_id:  currentUser?.id,
+    }]));
+  }
+
+  submitBtn.disabled    = false;
+  submitBtn.textContent = editId ? 'save changes →' : 'submit →';
+  if (error) { showError(`failed: ${error.message}`); return; }
+
+  submitSuccess.style.display = 'block';
+  await fetchTools();
+  setTimeout(closeModal, 900);
+});
+
+// ── Helpers ────────────────────────────────────────────────────
+const showError  = msg => { formError.textContent = msg; formError.style.display = 'block'; };
+const hideError  = ()  => { formError.style.display = 'none'; };
+const isValidUrl = s   => { try { new URL(s); return true; } catch { return false; } };
+
+function resetForm() {
+  ['f-name','f-link','f-desc'].forEach(id => document.getElementById(id).value = '');
+  document.querySelectorAll('.tag-option').forEach(o => o.classList.remove('selected'));
+  if (descCount) descCount.textContent = `0 / ${MAX_DESC_LEN}`;
+  selectedTags = [];
+  hideError();
+  submitSuccess.style.display = 'none';
+  submitBtn.disabled    = false;
+  submitBtn.textContent = 'submit →';
+}
+
+// ── Boot ───────────────────────────────────────────────────────
+fetchTools();
