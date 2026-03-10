@@ -1,12 +1,12 @@
 /* auth.js — login, logout, ban check, role fetch */
 
 async function fetchRole(userId) {
-  const { data } = await App.db.from('roles').select('role').eq('user_id', userId).single();
+  const { data } = await App.db.from('roles').select('role').eq('user_id', userId).maybeSingle();
   return data?.role || 'user';
 }
 
 async function checkBanned(userId) {
-  const { data } = await App.db.from('banned_users').select('*').eq('user_id', userId).single();
+  const { data } = await App.db.from('banned_users').select('*').eq('user_id', userId).maybeSingle();
   return data || null;
 }
 
@@ -41,8 +41,10 @@ async function updateAuthUI(user) {
     document.getElementById('admin-link').style.display = 'none';
   }
 
-  window.Bookmarks?.renderSavedFilter();
-  await window.Bookmarks?.fetchBookmarks();
+  if (window.Bookmarks) {
+    Bookmarks.renderSavedFilter();
+    await Bookmarks.fetchBookmarks();
+  }
   window.Main?.renderTools();
 }
 

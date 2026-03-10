@@ -9,7 +9,7 @@ async function fetchTools() {
   }
   App.allTools = data || [];
   document.getElementById('tool-count').textContent = `${App.allTools.length} things`;
-  await Bookmarks.fetchBookmarks();
+  if (window.Bookmarks) await Bookmarks.fetchBookmarks();
   renderTools();
 }
 
@@ -71,9 +71,9 @@ function buildCard(t, i) {
   const canEdit    = isOwner || App.currentRole === 'admin' || App.currentRole === 'superadmin';
   const ownerBadge = isOwner ? `<span class="owner-badge">you</span>` : '';
 
-  const isSaved = App.bookmarks.has(t.id);
-  const bmCount = App.bookmarkCounts[t.id] || 0;
-  const bmHTML  = App.currentUser ? `
+  const isSaved = App.bookmarks?.has(t.id) ?? false;
+  const bmCount = App.bookmarkCounts?.[t.id] || 0;
+  const bmHTML  = (App.currentUser && window.Bookmarks) ? `
     <button class="btn-bookmark${isSaved ? ' bookmarked' : ''}" data-id="${t.id}" title="${isSaved ? 'remove bookmark' : 'bookmark'}">
       ${bmCount > 0 ? `<span class="bm-count">${bmCount}</span>` : ''}${Bookmarks.bookmarkIcon(isSaved)}
     </button>` : '';
