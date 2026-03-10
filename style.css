@@ -260,7 +260,9 @@ main {
 .tag-SECURITY   { color: #f87171; border-color: #f87171; }
 .tag-TUI        { color: #86efac; border-color: #86efac; }
 .tag-FUN        { color: #fdba74; border-color: #fdba74; }
-.tag-USELESS    { color: var(--muted); border-color: var(--muted); }
+.tag-USELESS      { color: var(--muted); border-color: var(--muted); }
+.tag-PRODUCTIVITY { color: #38bdf8; border-color: #38bdf8; }
+.tag-WORKFLOW     { color: #a78bfa; border-color: #a78bfa; }
 
 /* Light mode — slightly deeper tones for contrast */
 [data-theme="light"] .tag-AI         { color: #16a34a; border-color: #16a34a; }
@@ -273,7 +275,9 @@ main {
 [data-theme="light"] .tag-SECURITY   { color: #dc2626; border-color: #dc2626; }
 [data-theme="light"] .tag-TUI        { color: #15803d; border-color: #15803d; }
 [data-theme="light"] .tag-FUN        { color: #c2410c; border-color: #c2410c; }
-[data-theme="light"] .tag-USELESS    { color: var(--muted); border-color: var(--muted); }
+[data-theme="light"] .tag-USELESS      { color: var(--muted); border-color: var(--muted); }
+.tag-PRODUCTIVITY { color: #38bdf8; border-color: #38bdf8; }
+.tag-WORKFLOW     { color: #a78bfa; border-color: #a78bfa; }
 
 .card-name {
   font-size: 14px;
