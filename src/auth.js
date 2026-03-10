@@ -83,10 +83,22 @@ function showBanScreen(ban) {
 }
 
 // ── Init auth ──────────────────────────────────────────────────
+// Deduplicate: Supabase fires onAuthStateChange multiple times on load
+// (INITIAL_SESSION then SIGNED_IN). Track last handled user id to skip repeats.
+let _lastHandledUserId = undefined;
+
 App.db.auth.onAuthStateChange((event, session) => {
-  updateAuthUI(session?.user ?? null);
+  const user   = session?.user ?? null;
+  const userId = user?.id ?? null;
+
   if (window.location.hash.includes('access_token'))
     history.replaceState(null, '', window.location.pathname);
+
+  // Skip if this is the exact same user state we already processed
+  if (userId === _lastHandledUserId) return;
+  _lastHandledUserId = userId;
+
+  updateAuthUI(user);
 });
 
 // ── OAuth buttons ──────────────────────────────────────────────
