@@ -83,22 +83,30 @@ function showBanScreen(ban) {
 }
 
 // ── Init auth ──────────────────────────────────────────────────
-// Deduplicate: Supabase fires onAuthStateChange multiple times on load
-// (INITIAL_SESSION then SIGNED_IN). Track last handled user id to skip repeats.
-let _lastHandledUserId = undefined;
+// Boot flag — set to true once src/main.js init() has finished its first
+// render. Until then, onAuthStateChange must not trigger extra renders.
+// After boot, only genuine sign-in / sign-out transitions are acted on.
+App._booted        = false;
+App._bootUserId    = undefined; // user id that init() already handled
 
 App.db.auth.onAuthStateChange((event, session) => {
-  const user   = session?.user ?? null;
-  const userId = user?.id ?? null;
-
   if (window.location.hash.includes('access_token'))
     history.replaceState(null, '', window.location.pathname);
 
-  // Skip if this is the exact same user state we already processed
-  if (userId === _lastHandledUserId) return;
-  _lastHandledUserId = userId;
+  // While init() hasn't finished yet, record who we'll boot as and bail.
+  // init() will call updateAuthUI itself, so no render needed here.
+  if (!App._booted) {
+    App._bootUserId = session?.user?.id ?? null;
+    return;
+  }
 
-  updateAuthUI(user);
+  const userId = session?.user?.id ?? null;
+
+  // After boot: only act on genuine changes (login / logout)
+  if (userId === App._bootUserId) return;
+  App._bootUserId = userId;
+
+  updateAuthUI(session?.user ?? null);
 });
 
 // ── OAuth buttons ──────────────────────────────────────────────

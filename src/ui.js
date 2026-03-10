@@ -61,8 +61,8 @@ document.getElementById('tag-filters').addEventListener('click', e => {
   if (!btn || btn.classList.contains('btn-saved')) return;
   document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  App.activeTag     = btn.dataset.tag;
-  App.showingSaved  = false;                    // always clear saved mode
+  App.activeTag    = btn.dataset.tag;
+  App.showingSaved = false;
   window.Main?.renderTools();
 });
 
@@ -102,7 +102,19 @@ document.getElementById('delete-cancel-btn').addEventListener('click', () => { d
 deleteModal.addEventListener('click', e => { if (e.target === deleteModal) deleteModal.style.display = 'none'; });
 
 document.addEventListener('keydown', e => {
+  // Focus search on Ctrl+K or /
+  if ((e.ctrlKey && e.key === 'k') || (e.key === '/' && document.activeElement !== searchInput)) {
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+    return;
+  }
   if (e.key !== 'Escape') return;
+  // Escape: blur search if focused, else close modals
+  if (document.activeElement === searchInput) {
+    searchInput.blur();
+    return;
+  }
   closeAddModal();
   loginModal.style.display  = 'none';
   deleteModal.style.display = 'none';

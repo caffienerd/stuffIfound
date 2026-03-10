@@ -111,6 +111,10 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 async function init() {
   await Tags.fetchTags();
   await fetchTools();
+  // Signal to auth.js that the first render is done.
+  // onAuthStateChange will now only re-render on genuine login/logout changes.
+  App._booted     = true;
+  App._bootUserId = App.currentUser?.id ?? null;
 }
 
 init();
