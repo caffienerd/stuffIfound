@@ -78,7 +78,14 @@ function renderSavedFilter() {
   btn.dataset.tag = '__SAVED__';
   btn.textContent = 'saved';
   if (App.showingSaved) btn.classList.add('active');
-  bar.appendChild(btn);
+
+  // insert right after the "all" button
+  const allBtn = bar.querySelector('[data-tag="ALL"]');
+  if (allBtn?.nextSibling) {
+    bar.insertBefore(btn, allBtn.nextSibling);
+  } else {
+    bar.appendChild(btn);
+  }
 }
 
 // intercept tag filter clicks for saved

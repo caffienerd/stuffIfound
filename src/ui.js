@@ -58,10 +58,11 @@ searchClear.addEventListener('click', () => {
 // ── Tag filter bar ─────────────────────────────────────────────
 document.getElementById('tag-filters').addEventListener('click', e => {
   const btn = e.target.closest('.tag-btn');
-  if (!btn) return;
+  if (!btn || btn.classList.contains('btn-saved')) return;
   document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  App.activeTag = btn.dataset.tag;
+  App.activeTag     = btn.dataset.tag;
+  App.showingSaved  = false;                    // always clear saved mode
   window.Main?.renderTools();
 });
 
