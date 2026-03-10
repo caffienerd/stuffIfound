@@ -82,31 +82,39 @@ function showBanScreen(ban) {
   });
 }
 
-// ── Init auth ──────────────────────────────────────────────────
-// Boot flag — set to true once src/main.js init() has finished its first
-// render. Until then, onAuthStateChange must not trigger extra renders.
-// After boot, only genuine sign-in / sign-out transitions are acted on.
-App._booted        = false;
-App._bootUserId    = undefined; // user id that init() already handled
+// ── Auth state ─────────────────────────────────────────────────
+// Boot gate: onAuthStateChange fires multiple times (INITIAL_SESSION,
+// SIGNED_IN, sometimes TOKEN_REFRESHED). We only want ONE render per
+// genuine state change. We track the last user id we acted on.
+//
+// IMPORTANT: App._booted is set by src/main.js after init() finishes.
+// Until then we record the boot user but don't render — init() owns
+// the first render. After boot, only genuine user changes are acted on.
+
+App._booted     = false;
+App._bootUserId = undefined;
 
 App.db.auth.onAuthStateChange((event, session) => {
-  if (window.location.hash.includes('access_token'))
+  // Clean up PKCE code from URL (modern Supabase uses ?code= not #access_token)
+  if (window.location.search.includes('code=') || window.location.hash.includes('access_token')) {
     history.replaceState(null, '', window.location.pathname);
+  }
 
-  // While init() hasn't finished yet, record who we'll boot as and bail.
-  // init() will call updateAuthUI itself, so no render needed here.
+  const user   = session?.user ?? null;
+  const userId = user?.id ?? null;
+
+  // Before init() finishes: just record who we'll be, don't render.
+  // init() will call updateAuthUI itself once it's ready.
   if (!App._booted) {
-    App._bootUserId = session?.user?.id ?? null;
+    App._bootUserId = userId;
     return;
   }
 
-  const userId = session?.user?.id ?? null;
-
-  // After boot: only act on genuine changes (login / logout)
+  // After boot: only act on genuine sign-in / sign-out transitions.
   if (userId === App._bootUserId) return;
   App._bootUserId = userId;
 
-  updateAuthUI(session?.user ?? null);
+  updateAuthUI(user);
 });
 
 // ── OAuth buttons ──────────────────────────────────────────────
