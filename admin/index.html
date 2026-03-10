@@ -44,6 +44,8 @@
     <div class="admin-tabs">
       <button class="admin-tab active" data-tab="tags">tags</button>
       <button class="admin-tab" data-tab="entries">entries</button>
+      <button class="admin-tab" data-tab="reports">reports</button>
+      <button class="admin-tab" data-tab="unban">unban requests</button>
       <button class="admin-tab superadmin-only" data-tab="users" style="display:none">users</button>
     </div>
 
@@ -83,6 +85,24 @@
     <div id="tab-users" class="admin-panel" style="display:none">
       <div class="panel-header"><h2>users</h2></div>
       <div id="users-list" class="entries-list"></div>
+    </div>
+
+    <!-- Reports -->
+    <div id="tab-reports" class="admin-panel" style="display:none">
+      <div class="panel-header">
+        <h2>reports</h2>
+        <label class="toggle-label">
+          <input type="checkbox" id="show-resolved" />
+          show resolved
+        </label>
+      </div>
+      <div id="reports-list" class="entries-list"></div>
+    </div>
+
+    <!-- Unban requests -->
+    <div id="tab-unban" class="admin-panel" style="display:none">
+      <div class="panel-header"><h2>unban requests</h2></div>
+      <div id="unban-list" class="entries-list"></div>
     </div>
 
   </main>
@@ -134,5 +154,6 @@
   <script src="src/tags.js"></script>
   <script src="src/entries.js"></script>
   <script src="src/users.js"></script>
+  <script src="src/reports.js"></script>
 </body>
 </html>

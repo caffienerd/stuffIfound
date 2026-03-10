@@ -833,3 +833,64 @@ main {
   box-sizing: border-box;
 }
 #unban-message:focus { border-color: var(--border2); }
+
+/* ── Bookmark button ───────────────────────────────────────── */
+.card-foot-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.btn-bookmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 3px 7px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+  transition: all 0.15s;
+  line-height: 1;
+}
+.btn-bookmark:hover { border-color: var(--border2); color: var(--text); }
+.btn-bookmark.bookmarked {
+  color: #fbbf24;
+  border-color: #fbbf2466;
+  background: #fbbf2411;
+}
+.btn-bookmark.bookmarked:hover {
+  background: #fbbf2422;
+  border-color: #fbbf2499;
+}
+.bm-count {
+  font-size: 10px;
+  font-family: var(--mono);
+  line-height: 1;
+}
+
+/* ── Report button ─────────────────────────────────────────── */
+.btn-report {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted2);
+  padding: 3px 5px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.15s;
+  line-height: 1;
+  opacity: 0.4;
+}
+.btn-report:hover { color: #f87171; border-color: #f8717144; opacity: 1; }
+
+/* ── Saved filter button ───────────────────────────────────── */
+.btn-saved {
+  margin-left: 8px;
+  border-left: 1px solid var(--border);
+  padding-left: 12px !important;
+}

@@ -41,6 +41,8 @@ async function updateAuthUI(user) {
     document.getElementById('admin-link').style.display = 'none';
   }
 
+  window.Bookmarks?.renderSavedFilter();
+  await window.Bookmarks?.fetchBookmarks();
   window.Main?.renderTools();
 }
 
