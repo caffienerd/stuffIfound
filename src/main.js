@@ -52,7 +52,8 @@ function renderTools() {
 
 // ── Card ───────────────────────────────────────────────────────
 function buildCard(t, i) {
-  const tags      = Array.isArray(t.tags)      ? t.tags      : [];
+  const knownTagNames = new Set(App.allTags.map(x => x.name));
+  const tags      = (Array.isArray(t.tags) ? t.tags : []).filter(tag => knownTagNames.has(tag));
   const platforms = Array.isArray(t.platforms) ? t.platforms : [];
   const isDark    = document.documentElement.getAttribute('data-theme') !== 'light';
 
@@ -108,25 +109,12 @@ function buildCard(t, i) {
 const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 // ── Boot ───────────────────────────────────────────────────────
-// init() is the single source of truth for the first render.
-// It calls getSession() directly — never relies on onAuthStateChange
-// for the initial load. Once done it sets App._booted = true so
-// auth.js can take over for live sign-in / sign-out events.
 async function init() {
   await Tags.fetchTags();
-
-  // Get session directly — guaranteed to have the user on page load
-  // including after an OAuth redirect (PKCE code exchange happens here)
   const { data: { session } } = await App.db.auth.getSession();
   const user = session?.user ?? null;
-
-  // Update header, role, ban check
   await Auth.updateAuthUI(user);
-
-  // Fetch tools, bookmarks, and do the first render
   await fetchTools();
-
-  // Boot complete — auth.js onAuthStateChange now handles live transitions
   App._booted     = true;
   App._bootUserId = user?.id ?? null;
 }

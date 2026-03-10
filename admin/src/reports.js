@@ -158,4 +158,4 @@ document.addEventListener('DOMContentLoaded', () => {
       if (tab.dataset.tab === 'unban')   AdminUnban.load();
     });
   });
-});1
+});

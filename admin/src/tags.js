@@ -32,8 +32,19 @@ window.AdminTags = {
     list.querySelectorAll('.btn-delete-tag').forEach(btn =>
       btn.addEventListener('click', () => confirmAction(
         `remove tag "${btn.dataset.name}"?`,
-        `existing entries keep this tag — it's just removed from the list.`,
+        `this will also remove the tag from all existing entries.`,
         async () => {
+          const tagName = btn.dataset.name;
+          // 1. fetch all tools that have this tag
+          const { data: affected } = await Admin.db
+            .from('tools').select('id, tags').contains('tags', [tagName]);
+          // 2. strip the tag from each
+          if (affected?.length) {
+            await Promise.all(affected.map(t =>
+              Admin.db.from('tools').update({ tags: t.tags.filter(x => x !== tagName) }).eq('id', t.id)
+            ));
+          }
+          // 3. delete the tag itself
           await Admin.db.from('tags').delete().eq('id', btn.dataset.id);
           await AdminTags.load();
         }

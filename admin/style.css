@@ -376,21 +376,22 @@ html { scroll-behavior: smooth; zoom: 1.25; }
 #unban-message:focus { border-color: var(--border2); }
 
 /* ── btn-admin in header ───────────────────────────────────── */
-.btn-admin {
+a.btn-admin, .btn-admin {
   font-family: var(--mono);
   font-size: 11px;
   background: transparent;
   border: 1px solid var(--border);
-  color: var(--muted);
+  color: var(--muted) !important;
   padding: 4px 10px;
   border-radius: var(--radius);
   cursor: pointer;
   transition: all 0.15s;
-  text-decoration: none;
+  text-decoration: none !important;
   display: inline-flex;
   align-items: center;
+  line-height: 1;
 }
-.btn-admin:hover { border-color: var(--border2); color: var(--text); }
+a.btn-admin:hover, .btn-admin:hover { border-color: var(--border2); color: var(--text) !important; }
 
 /* ── Reports ───────────────────────────────────────────────── */
 .entry-row--resolved {
