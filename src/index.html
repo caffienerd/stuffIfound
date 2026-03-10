@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stuffIfound</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../assets/icon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">stuffIfound<span class="logo-dot">.</span></div>
+      <div class="header-right">
+        <span id="tool-count" class="meta-count"></span>
+        <button id="theme-toggle" class="btn-theme" title="toggle theme">◐</button>
+        <!-- Auth: shown when logged out -->
+        <button id="login-btn" class="btn-login">sign in</button>
+        <!-- Auth: shown when logged in -->
+        <div id="user-menu" class="user-menu" style="display:none">
+          <img id="user-avatar" class="user-avatar" src="" alt="" />
+          <span id="user-name" class="user-name"></span>
+          <button id="signout-btn" class="btn-signout">sign out</button>
+        </div>
+        <button id="add-btn" class="btn-add" style="display:none">+ add</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="controls">
+      <div class="search-wrap">
+        <input type="text" id="search" placeholder="search..." autocomplete="off" spellcheck="false" />
+        <span id="search-clear" class="search-clear" style="display:none">✕</span>
+      </div>
+      <div class="tag-filters" id="tag-filters">
+        <button class="tag-btn active" data-tag="ALL">all</button>
+        <button class="tag-btn" data-tag="AI">ai</button>
+        <button class="tag-btn" data-tag="TOOL">tool</button>
+        <button class="tag-btn" data-tag="COOL">cool</button>
+        <button class="tag-btn" data-tag="COLLECTION">collection</button>
+        <button class="tag-btn" data-tag="RESOURCE">resource</button>
+        <button class="tag-btn" data-tag="INSPIRATION">inspiration</button>
+        <button class="tag-btn" data-tag="VIBE-CODE">vibe-code</button>
+        <button class="tag-btn" data-tag="SECURITY">security</button>
+        <button class="tag-btn" data-tag="TUI">tui</button>
+        <button class="tag-btn" data-tag="FUN">fun</button>
+        <button class="tag-btn" data-tag="USELESS">useless</button>
+      </div>
+    </div>
+
+    <div id="tools-grid" class="tools-grid">
+      <div class="loading">loading<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
+    </div>
+    <div id="no-results" class="no-results" style="display:none">nothing found.</div>
+    <p class="footer-sub">a running list of tools, links &amp; things worth keeping.</p>
+  </main>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal-overlay" style="display:none">
+    <div class="modal modal--narrow">
+      <div class="modal-header">
+        <span class="modal-title">sign in</span>
+        <button id="login-modal-close" class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="auth-hint">sign in to add, edit, or remove your own entries.</p>
+        <button id="gh-login-btn" class="btn-oauth btn-oauth--gh">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          continue with github
+        </button>
+        <button id="google-login-btn" class="btn-oauth btn-oauth--google">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          continue with google
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Tool Modal -->
+  <div id="modal-overlay" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <div class="modal-header">
+        <span id="modal-title" class="modal-title">add something</span>
+        <button id="modal-close" class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="f-edit-id" />
+        <div class="field">
+          <label>name <span class="req">*</span></label>
+          <input type="text" id="f-name" placeholder="e.g. ripgrep" spellcheck="false" />
+        </div>
+        <div class="field">
+          <label>link <span class="req">*</span></label>
+          <input type="url" id="f-link" placeholder="https://..." spellcheck="false" />
+        </div>
+        <div class="field">
+          <label>description <span class="req">*</span></label>
+          <textarea id="f-desc" placeholder="what is it? keep it short." rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>tags <span class="req">*</span></label>
+          <div class="tag-select" id="tag-select">
+            <button class="tag-option" data-tag="AI">ai</button>
+            <button class="tag-option" data-tag="TOOL">tool</button>
+            <button class="tag-option" data-tag="COOL">cool</button>
+            <button class="tag-option" data-tag="COLLECTION">collection</button>
+            <button class="tag-option" data-tag="RESOURCE">resource</button>
+            <button class="tag-option" data-tag="INSPIRATION">inspiration</button>
+            <button class="tag-option" data-tag="VIBE-CODE">vibe-code</button>
+            <button class="tag-option" data-tag="SECURITY">security</button>
+            <button class="tag-option" data-tag="TUI">tui</button>
+            <button class="tag-option" data-tag="FUN">fun</button>
+            <button class="tag-option" data-tag="USELESS">useless</button>
+          </div>
+        </div>
+        <div id="form-error" class="form-error" style="display:none"></div>
+        <button id="submit-btn" class="btn-submit">submit →</button>
+        <div id="submit-success" class="submit-success" style="display:none">✓ saved!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete confirm -->
+  <div id="delete-modal" class="modal-overlay" style="display:none">
+    <div class="modal modal--narrow">
+      <div class="modal-header">
+        <span class="modal-title">remove entry</span>
+        <button id="delete-cancel" class="modal-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="auth-hint">are you sure? this can't be undone.</p>
+        <div class="delete-actions">
+          <button id="delete-cancel-btn" class="btn-cancel">cancel</button>
+          <button id="delete-confirm-btn" class="btn-delete">remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.SUPABASE_URL      = 'https://btuajyhjhvxzfzkemvkx.supabase.co';
+    window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0dWFqeWhqaHZ4emZ6a2Vtdmt4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNzQwMDEsImV4cCI6MjA4ODY1MDAwMX0.UKPr-fYV262MgIxJuiR35uJQwhbqYlqmtvy7ois1IlY';
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
